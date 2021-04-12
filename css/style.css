@@ -1,0 +1,48 @@
+#imgcontainer
+{
+   
+    width: 60%;
+  margin: auto;
+ 
+}
+header{
+    text-align: center;
+}
+
+#imgcontainer img
+{
+    width: 30%;
+    height: 200px;
+
+    text-align: center;
+}
+
+
+
+#list
+{
+width: 25%;
+
+    margin: auto;
+    background-color: skyblue;
+ margin-top: 0.5%;
+
+}
+
+
+
+
+#results
+{
+    visibility: hidden;
+}
+
+
+button
+{
+    background-color: brown;
+display: block;
+    padding: 2%;
+   margin: auto;
+   color: wheat;
+}
