@@ -9,16 +9,22 @@ let maxAttempts = 25;
 let userAttemptsCounter = 0;//to check once user reach max attempts
 let images = 3; //Num of images
 
+let roundNum=1;
+let buttonRes;
+let newgenerator ;
 let leftImageIndex;
 let centerImageIndex;
 let rightImageIndex;
-
+let allNames=[]
+let allshown=[]
+let allvotes=[]
 function product(name, source) {
     this.name = name;
     this.source = source;
     this.shown = 0;
     this.votes = 0;
     product.products.push(this)
+    allNames.push(this.name)
 }
 
 product.products = [];
@@ -48,13 +54,14 @@ new product('wine-glass', 'images/wine-glass.jpg');
 function generateRandomIndex(imgnum) {
 
     let threerandom = []
-    while (threerandom.length < imgnum) {
+    while (threerandom.length < imgnum*2) {
         let round = Math.floor(Math.random() * product.products.length);
         if (threerandom.indexOf(round) === -1) {
             threerandom.push(round);
         }
     }
 
+    console.log(threerandom)
     return threerandom;
 
 }
@@ -63,11 +70,28 @@ function generateRandomIndex(imgnum) {
 
 function render() {
 
-    let newgenerator = generateRandomIndex(images)
+
+    if(roundNum%2==1)
+    {
+        newgenerator = generateRandomIndex(images)
 
     leftImageIndex = newgenerator[0]
     centerImageIndex = newgenerator[1]
     rightImageIndex = newgenerator[2]
+
+    roundNum++
+    console.log('odd')
+    }
+
+else
+{
+    leftImageIndex = newgenerator[3]
+    centerImageIndex = newgenerator[4]
+    rightImageIndex = newgenerator[5]
+
+    roundNum++
+    console.log('even')
+}
 
 
     leftImageElement.src =
@@ -88,7 +112,6 @@ product.products[leftImageIndex].shown = product.products[leftImageIndex].shown 
 
 render() // first vote before first click
 maxAttempts--
-console.log(maxAttempts)
 
 
 let onclicck = document.getElementById('imgcontainer')
@@ -151,12 +174,54 @@ function handleclick(event) {
         onclicck.removeEventListener('click', handleclick)
         onclicck.style.display = "none"
 
-        let buttonRes = document.getElementById('results')
+      buttonRes = document.getElementById('results')
         buttonRes.style.visibility = "visible";
 
         buttonRes.addEventListener('click', result)
+        buttonRes.addEventListener('click', chart)
+
 
     }
+
+}
+
+
+
+function chart ()
+{
+    let canv = document.getElementById("visualizeResults")
+       
+        let chart= new Chart(canv,{
+            // what type is the chart
+           type: 'bar',
+          //  the data for showing
+           data:{
+            //  for the names
+              labels: allNames,
+              datasets: [
+                {
+                label: 'Product votes',
+                data: allvotes,
+                backgroundColor: 
+             'black'
+                ,
+                borderWidth: 1
+              },
+        
+              {
+                label: 'Product shown',
+                data: allshown,
+                backgroundColor: 
+                'red'
+                ,
+                borderWidth: 1
+              }
+              
+            ]
+            
+            },
+            
+          })        
 
 }
 
@@ -182,8 +247,15 @@ function result() {
 
 
         total = total + product.products[i].votes
-        console.log(total)
+
+        allvotes.push(product.products[i].votes)
+        allshown.push(product.products[i].shown)
+
+       
     }
     console.log(`all total test = ${total}`)
+
+    buttonRes.removeEventListener('click', result)
+
 }
 
