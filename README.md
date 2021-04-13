@@ -11,3 +11,8 @@
 1-Good.
 2-So far so good , nothing Thanks.
 3- 5 Hours.
+
+## Lab: 12 Q&A:
+1-Good.
+2-So far so good , nothing Thanks.
+3- 3 Hours.
