@@ -16,3 +16,10 @@
 1-Good.
 2-So far so good , nothing Thanks.
 3- 3 Hours.
+
+
+
+## Lab: 13 Q&A:
+1-Good.
+2-So far so good.
+3- 2 Hours.
