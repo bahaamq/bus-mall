@@ -19,13 +19,30 @@ let allNames=[]
 let allshown=[]
 let allvotes=[]
 function product(name, source) {
+    
     this.name = name;
     this.source = source;
     this.shown = 0;
     this.votes = 0;
     product.products.push(this)
     allNames.push(this.name)
+
 }
+
+
+
+
+function updateStorage(allproducts)
+{
+    let dataString=JSON.stringify(allproducts);
+
+    localStorage.setItem('Allproducts',dataString);
+}
+
+
+
+
+
 
 product.products = [];
 
@@ -49,6 +66,11 @@ new product('tauntaun', 'images/tauntaun.jpg');
 new product('unicorn', 'images/unicorn.jpg');
 new product('usb', 'images/usb.gif');
 new product('wine-glass', 'images/wine-glass.jpg');
+
+
+
+
+
 
 
 function generateRandomIndex(imgnum) {
@@ -146,9 +168,11 @@ function handleclick(event) {
 
         }
 
+
         render()
     }
 
+    
 
     else if (userAttemptsCounter === maxAttempts){
 
@@ -181,6 +205,7 @@ function handleclick(event) {
         buttonRes.addEventListener('click', chart)
 
 
+
     }
 
 }
@@ -191,6 +216,8 @@ function chart ()
 {
     let canv = document.getElementById("visualizeResults")
        
+    
+
         let chart= new Chart(canv,{
             // what type is the chart
            type: 'bar',
@@ -220,9 +247,8 @@ function chart ()
             ]
             
             },
-            
-          })        
 
+          })       
 }
 
 function result() {
@@ -244,18 +270,37 @@ function result() {
     had ${product.products[i].votes}
      and was seen ${product.products[i].shown} times  `)
 
-
-
         total = total + product.products[i].votes
 
         allvotes.push(product.products[i].votes)
         allshown.push(product.products[i].shown)
-
-       
+ 
     }
+    updateStorage(product.products)
+
     console.log(`all total test = ${total}`)
 
     buttonRes.removeEventListener('click', result)
+    
 
 }
 
+
+function getData() {
+
+    // get the data from the local storage
+    let data =localStorage.getItem('Allproducts');
+  
+    // convert data back into a normal array of objects
+    let productsData=JSON.parse(data);
+  
+    // if the first time we visit the page, there will not be an array of objects inside the local storage so we should handle it here:
+    if (productsData !==null) {
+     product.products=productsData
+    }
+  
+  }
+
+//Calling get Data at the end 
+
+getData()
